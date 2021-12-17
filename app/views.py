@@ -39,3 +39,30 @@ def add_product():
 	db.session.commit()
 
 	return prod_schema.jsonify(new_prod)
+
+@views.route('/products/<id>/update', methods=['GET', 'PUT'])
+def update_product(id):
+	item = Product.query.get(id)
+	
+	name = request.json['name']
+	description = request.json['description']
+	price = request.json['price']
+	qty = request.json['qty']
+
+	item.name = name
+	item.description = description
+	item.price = price
+	item.qty = qty
+
+	db.session.commit()
+
+	return prod_schema.jsonify(item)
+
+@views.route('/products/<id>/delete', methods=['GET', 'DELETE'])
+def delete_product(id):
+	item = Product.query.get(id)
+
+	db.session.delete(item)
+	db.session.commit()
+
+	return prod_schema.jsonify(item)
