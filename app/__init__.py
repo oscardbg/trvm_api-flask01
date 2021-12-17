@@ -1,16 +1,20 @@
+from flask_marshmallow import Marshmallow
 from flask_sqlalchemy import SQLAlchemy
 from app.config import Config
 from os.path import exists
 from flask import Flask
 
 db = SQLAlchemy()
+mars = Marshmallow()
 DB_NAME = 'apidata.db'
 
 def create_app():
 	app = Flask(__name__)
 	app.config.from_object(Config)
+	
 	db.init_app(app)
-
+	mars.init_app(app)
+	
 	from app.views import views
 	app.register_blueprint(views, url_prefix='/')
 
